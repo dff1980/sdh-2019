@@ -1,6 +1,8 @@
 # sdh-2019
 SAP Data Hub on SUSE CaaS and SES5
 
+## DNS + DHCP + NTP Install
+
 ## SMT Install
 ```bash
 sudo zypper in -t pattern smt
