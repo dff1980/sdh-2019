@@ -3,7 +3,7 @@ prompt 0
 timeout 50
 
 menu title PXE Install Server
-#menu background background.jpg
+menu background background.jpg
 
 label harddisk
   menu label Local Hard Disk
@@ -12,6 +12,20 @@ label harddisk
 label install-osd-node
   menu label OSD Node
   kernel sle12sp3/linux
-  append load ramdisk=1 initrd=sle12sp3/initrd netsetup=dhcp install=http://admin.ses-demo.suse.ru/install/SLE12SP3 autoyast=http://admin.ses-demo.suse.ru/install/autoinst.xml
+  append load ramdisk=1 initrd=sle12sp3/initrd netsetup=dhcp install=http://router.sdh.suse.ru/install/SLE12SP3 autoyast=http://router.sdh.suse.ru/install/autoinst_osd.xml
 
+label install-caasp-node_ay-router
+  menu label Install CaaSP Node (full automation)
+  kernel caasp/linux
+  append load ramdisk=1 initrd=caasp/initrd netsetup=dhcp install=http://router.sdh.suse.ru/repo/SUSE/Install/SUSE-CAASP/3.0/x86_64 autoyast=http://router.sdh.suse.ru/autoinst_worker.xml
+
+label install-caasp-node_ay-admin
+  menu label Install CaaSP Node (autoyast profile from admin node)
+  kernel caasp/linux
+  append load ramdisk=1 initrd=caasp/initrd netsetup=dhcp install=http://router.sdh.suse.ru/repo/SUSE/Install/SUSE-CAASP/3.0/x86_64 autoyast=http://admin-caas.sdh.suse.ru/autoyast
+
+label install-caasp-manually
+  menu label Install CaaSP Manually
+  kernel caasp/linux
+  append load ramdisk=1 initrd=caasp/initrd netsetup=dhcp install=http://router.sdh.suse.ru/repo/SUSE/Install/SUSE-CAASP/3.0/x86_64
 
