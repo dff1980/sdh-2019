@@ -1,4 +1,4 @@
-# sdh-2019
+# SAP Data Hub on SUSE CaaS Platform and SUSE Enterprise Server 2019 PoC
 SAP Data Hub on SUSE CaaS and SES5
 
 ## DNS + DHCP + NTP Install
