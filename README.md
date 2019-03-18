@@ -7,7 +7,7 @@ https://www.suse.com/documentation/suse-enterprise-storage-5/
 `sudo zypper in -t pattern smt`
 
 for REPO in SLES12-SP3-{Pool,Updates} SUSE-Enterprise-Storage-5-{Pool,Updates} SUSE-CAASP-ALL-{Pool,Updates}; do
-  smt-repos $REPO sle-12-x86_64 -e
+  smt-repos $REPO sle-12-x86_64; -e
 done
 
 ## AutoYast Fingerprint
