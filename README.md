@@ -16,7 +16,7 @@ smt-mirror -L /var/log/smt/smt-mirror.log
 
 ## AutoYast Fingerprint
 ```bash
-cat /srv/www/htdocs/smt.crt | openssl x509 -noout -fingerprint -sha256
+openssl x509 -noout -fingerprint -sha256 -inform pem -in /srv/www/htdocs/smt.crt
 ```
 ## SUSE Enterprise Storage 5 Documentation
 https://www.suse.com/documentation/suse-enterprise-storage-5/
