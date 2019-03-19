@@ -17,7 +17,7 @@ label install-osd-node
 label install-caasp-node_ay-router
   menu label Install CaaSP Node (full automation)
   kernel caasp/linux
-  append load ramdisk=1 initrd=caasp/initrd netsetup=dhcp install=http://router.sdh.suse.ru/repo/SUSE/Install/SUSE-CAASP/3.0/x86_64 autoyast=http://router.sdh.suse.ru/autoyast/autoinst_worker.xml
+  append load ramdisk=1 initrd=caasp/initrd netsetup=dhcp install=http://router.sdh.suse.ru/repo/SUSE/Install/SUSE-CAASP/3.0/x86_64 autoyast=http://router.sdh.suse.ru/autoyast/autoinst_caas.xml
 
 label install-caasp-node_ay-admin
   menu label Install CaaSP Node (autoyast profile from admin node)
