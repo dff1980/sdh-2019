@@ -13,7 +13,6 @@ done
 
 smt-mirror -L /var/log/smt/smt-mirror.log
 ```
-https://download.suse.com/sendredirect?target=https%3A%2F%2Fcdn.microfocus.com%2Fprot%2FaAf7XlIn_wU%7E%2FSLE-12-SP3-Server-DVD-x86_64-GM-DVD1.iso%3FUqmKiXsY-KbEsbkznG4H7aEPKVmn9gcn2dLmUHzHSt3dp2qTuf9EgfAR35ibwuatQaJJyKhKq7zFYrfhG5fgsRWQp_z75pis6LnYlIFcrjdOgauyO6jRB8w670UZRUksDiipEAQfBtAkSbz9y9_WsXeWryk3C8GDxw&buildid=aAf7XlIn_wU~&fileid=Xr3ZZEh4wko~&mirror=AkamaiHost&nohost=false&ws=true
 
 ```bash
 mkdir -p /srv/www/htdocs/repo/SUSE/Install/SLE-SERVER/12-SP3
