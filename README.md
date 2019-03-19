@@ -1,13 +1,20 @@
 # SAP Data Hub on SUSE CaaS Platform and SUSE Enterprise Server 2019 PoC
 SAP Data Hub on SUSE CaaS and SES5
 
+change /etc/hosts
+192.168.20.254 master
+to
+192.168.20.254 master.sdh.suse.ru master
+
+Shutt-off firewall at install SES
+
 ## DNS + DHCP + NTP Install
 
 ## SMT Install
 ```bash
 sudo zypper in -t pattern smt
 
-for REPO in SLES12-SP3-{Pool,Updates} SUSE-Enterprise-Storage-5-{Pool,Updates} SUSE-CAASP-ALL-{Pool,Updates}; do
+for REPO in SLES12-SP3-{Pool,Updates} SUSE-Enterprise-Storage-5-{Pool,Updates} SUSE-CAASP-3.0-{Pool,Updates}; do
   smt-repos $REPO sle-12-x86_64 -e
 done
 

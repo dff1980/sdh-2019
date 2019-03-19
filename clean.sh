@@ -9,7 +9,7 @@ rm -r /srv/salt
 rm -r /etc/salt
 rm -r /var/cache/salt
 rm /srv/pillar/ceph/master_minion.sls.rpmsave /srv/pillar/ceph/deepsea_minions.sls.rpmsave /etc/salt/master.d/sharedsecret.conf.rpmsave
-for i in 1 2 3 4; do ssh osd-0$i 'zypper rm -y salt salt-minion ceph-common; rm -r /etc/salt /var/lib/ceph /var/cache/salt /etc/salt; echo -e "d\n2\nd\nw\n" | fdisk /dev/sdb; reboot'; done
+for i in 1 2 3 4; do ssh osd-0$i 'zypper rm -y salt salt-minion ceph-common; rm -r /etc/salt /var/lib/ceph /var/cache/salt /etc/salt; echo -e "d\n2\nd\nw\n" | fdisk /dev/sdb; echo -e "d\n2\nd\nw\n" | fdisk /dev/sdc; echo -e "d\n2\nd\nw\n" | fdisk /dev/sdd; reboot'; done
 
 sleep 30
 

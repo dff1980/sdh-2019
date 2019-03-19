@@ -28,15 +28,6 @@
       </script>
     </chroot-scripts>
   </scripts>
-  <add-on>
-    <add_on_products config:type="list">
-      <listentry>
-        <media_url><![CDATA[http://smt.sdh.suse.ru/repo/SUSE/Products/Storage/5/x86_64/product?credentials=SMT-http_smt_sdh_suse_ru]]></media_url>
-        <product>ses</product>
-        <product_dir/>
-      </listentry>
-    </add_on_products>
-  </add-on>
   <bootloader>
     <global>
       <activate>true</activate>
@@ -1456,5 +1447,12 @@
       <reg_server>https://smt.sdh.suse.ru</reg_server>
       <reg_server_cert_fingerprint_type>SHA256</reg_server_cert_fingerprint_type>
       <reg_server_cert_fingerprint>36:B5:CA:C8:D2:20:2F:3D:0F:DB:F7:A5:69:F3:FB:57:DF:15:77:5C:7D:99:2D:6A:B0:74:69:24:F6:B8:5B:BA</reg_server_cert_fingerprint>
+    <addons config:type="list">
+      <addon>
+      <name>ses</name>
+      <version>5</version>
+      <arch>x86_64</arch>
+     </addon>
+    </addons>
   </suse_register>
 </profile>
