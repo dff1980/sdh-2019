@@ -12,12 +12,12 @@ label harddisk
 label install-osd-node
   menu label OSD Node
   kernel sle12sp3/linux
-  append load ramdisk=1 initrd=sle12sp3/initrd netsetup=dhcp install=http://router.sdh.suse.ru/Install/SLE-SERVER/12-SP3/x86_64 autoyast=http://router.sdh.suse.ru/install/autoinst_osd.xml
+  append load ramdisk=1 initrd=sle12sp3/initrd netsetup=dhcp install=http://router.sdh.suse.ru/repo/SUSE/Install/SLE-SERVER/12-SP3/x86_64 autoyast=http://router.sdh.suse.ru/autoyast/autoinst_osd.xml
 
 label install-caasp-node_ay-router
   menu label Install CaaSP Node (full automation)
   kernel caasp/linux
-  append load ramdisk=1 initrd=caasp/initrd netsetup=dhcp install=http://router.sdh.suse.ru/repo/SUSE/Install/SUSE-CAASP/3.0/x86_64 autoyast=http://router.sdh.suse.ru/autoinst_worker.xml
+  append load ramdisk=1 initrd=caasp/initrd netsetup=dhcp install=http://router.sdh.suse.ru/repo/SUSE/Install/SUSE-CAASP/3.0/x86_64 autoyast=http://router.sdh.suse.ru/autoyast/autoinst_worker.xml
 
 label install-caasp-node_ay-admin
   menu label Install CaaSP Node (autoyast profile from admin node)
