@@ -19,9 +19,13 @@ mkdir -p /srv/www/htdocs/repo/SUSE/Install/SLE-SERVER/12-SP3
 mkdir -p /srv/www/htdocs/repo/SUSE/Install/SUSE-CAASP/3.0
 mkdir -p /srv/www/htdocs/repo/SUSE/Install/Storage/5
 
+mkdir -p /srv/tftpboot/sle12sp3
+mkdir -p /srv/tftpboot/caasp
+
 
 mount /SLE-12-SP3-Server-DVD-x86_64-GM-DVD1.iso /mnt
 rsync -avP /mnt/ /srv/www/htdocs/repo/SUSE/Install/SLE-SERVER/12-SP3/
+cp /mnt/boot/x86_64/loader/{linux,initrd} /srv/tftpboot/sle12sp3/
 umount /mnt
 
 mount /SUSE-Enterprise-Storage-5-DVD-x86_64-GM-DVD1.iso /mnt
@@ -30,6 +34,7 @@ umount /mnt
 
 mount /SUSE-CaaS-Platform-3.0-DVD-x86_64-GM-DVD1.iso /mnt
 rsync -avP /mnt/ /srv/www/htdocs/repo/SUSE/Install/SUSE-CAASP/3.0/
+cp /mnt/boot/x86_64/loader/{linux,initrd} /srv/tftpboot/caasp/
 umount /mnt
 ```
 
