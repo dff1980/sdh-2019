@@ -14,6 +14,25 @@ done
 smt-mirror -L /var/log/smt/smt-mirror.log
 ```
 
+```bash
+mkdir -p /srv/www/htdocs/repo/SUSE/Install/SLE-SERVER/12-SP3
+mkdir -p /srv/www/htdocs/repo/SUSE/Install/SUSE-CAASP/3.0
+mkdir -p /srv/www/htdocs/repo/SUSE/Install/Storage/5
+
+
+mount /SLE-12-SP3-Server-DVD-x86_64-GM-DVD1.iso /mnt
+rsync -avP /mnt/ /srv/www/htdocs/repo/SUSE/Install/SLE-SERVER/12-SP3/
+umount /mnt
+
+mount /SUSE-Enterprise-Storage-5-DVD-x86_64-GM-DVD1.iso /mnt
+rsync -avP /mnt/ /srv/www/htdocs/repo/SUSE/Install/Storage/5/
+umount /mnt
+
+mount /SUSE-CaaS-Platform-3.0-DVD-x86_64-GM-DVD1.iso /mnt
+rsync -avP /mnt/ /srv/www/htdocs/repo/SUSE/Install/SUSE-CAASP/3.0/
+umount /mnt
+```
+
 ## AutoYast Fingerprint
 ```bash
 openssl x509 -noout -fingerprint -sha256 -inform pem -in /srv/www/htdocs/smt.crt
