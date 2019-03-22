@@ -1,0 +1,10 @@
+dn: uid=vgrachev,ou=People,dc=infra,dc=caasp,dc=local
+objectClass: person
+objectClass: inetOrgPerson
+objectClass: top
+uid: vgrachev
+userPassword: {SSHA}FhlMXaqWboq19KU3WbIRAJNQYDCbPoTm
+givenname: Vadim
+sn: Grachev
+cn: Vadim Grachev
+mail: vadim.grachev@sap.com

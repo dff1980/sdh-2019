@@ -1,0 +1,107 @@
+ssh
+
+vgrachev@172.26.29.229 / SAP4ALL
+
+---
+
+vgrachev@master:~> kubectl version
+Client Version: version.Info{Major:"1", Minor:"10", GitVersion:"v1.10.11", GitCommit:"637c7e288581ee40ab4ca210618a89a555b6e7e9", GitTreeState:"clean", BuildDate:"2018-12-19T09:18:50Z", GoVersion:"go1.11.4", Compiler:"gc", Platform:"linux/amd64"}
+Server Version: version.Info{Major:"1", Minor:"10", GitVersion:"v1.10.11", GitCommit:"637c7e288581ee40ab4ca210618a89a555b6e7e9", GitTreeState:"clean", BuildDate:"2018-12-19T09:18:50Z", GoVersion:"go1.11.4", Compiler:"gc", Platform:"linux/amd64"}
+
+
+vgrachev@master:~> kubectl auth can-i '*' '*'
+yes
+
+
+vgrachev@master:~> helm version
+Client: &version.Version{SemVer:"v2.8.2", GitCommit:"2.8.2", GitTreeState:"clean"}
+Server: &version.Version{SemVer:"v2.8.2", GitCommit:"2.8.2", GitTreeState:"clean"}
+
+
+vgrachev@master:~> ceph status
+  cluster:
+    id:     f350d69b-61b5-3e39-9594-c437224b7aa4
+    health: HEALTH_OK
+
+  services:
+    mon: 3 daemons, quorum osd-01,osd-02,osd-03
+    mgr: osd-03(active), standbys: osd-02, osd-01
+    osd: 12 osds: 12 up, 12 in
+    rgw: 1 daemon active
+
+  data:
+    pools:   6 pools, 672 pgs
+    objects: 227 objects, 1.49KiB
+    usage:   12.1GiB used, 12.0TiB / 12.0TiB avail
+    pgs:     672 active+clean
+
+
+vgrachev@master:~> rbd rm rbd_test
+Removing image: 100% complete...done.
+vgrachev@master:~> rbd list
+vgrachev@master:~> clear
+vgrachev@master:~> rbd list
+vgrachev@master:~> rbd create -s 10 rbd_test
+vgrachev@master:~> rbd info rbd_test
+rbd image 'rbd_test':
+        size 10MiB in 3 objects
+        order 22 (4MiB objects)
+        block_name_prefix: rbd_data.872d6b8b4567
+        format: 2
+        features: layering
+        flags:
+        create_timestamp: Fri Mar 22 17:49:19 2019
+
+vgrachev@master:~> kubectl apply -f - << *EOF*
+> apiVersion: v1
+> kind: Pod
+> metadata:
+>   name: rbd-test
+> spec:
+>   containers:
+>   - name: test-server
+>     image: nginx
+>     volumeMounts:
+>     - mountPath: /mnt/rbdvol
+>       name: rbdvol
+>   volumes:
+>   - name: rbdvol
+>     rbd:
+>       monitors:
+>       - '192.168.20.21:6789'
+>       - '192.168.20.22:6789'
+>       - '192.168.20.23:6789'
+>       pool: rbd
+>       image: rbd_test
+>       user: admin
+>       secretRef:
+>         name: ceph-secret
+>       fsType: ext4
+>       readOnly: false
+> *EOF*
+
+pod "rbd-test" created
+
+vgrachev@master:~> kubectl get po
+NAME       READY     STATUS    RESTARTS   AGE
+rbd-test   1/1       Running   0          22s
+
+vgrachev@master:~> kubectl exec -it rbd-test -- df -h
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/sda3        70G  1.9G   67G   3% /
+tmpfs            64M     0   64M   0% /dev
+tmpfs            32G     0   32G   0% /sys/fs/cgroup
+/dev/rbd0       8.7M   92K  7.9M   2% /mnt/rbdvol
+/dev/sda2        31G  3.0G   26G  11% /etc/hosts
+/dev/sda3        70G  1.9G   67G   3% /etc/hostname
+shm              64M     0   64M   0% /dev/shm
+tmpfs            32G   20K   32G   1% /run/secrets/SUSEConnect
+tmpfs            32G   12K   32G   1% /run/secrets/kubernetes.io/serviceaccount
+tmpfs            32G     0   32G   0% /proc/scsi
+tmpfs            32G     0   32G   0% /sys/firmware
+
+vgrachev@master:~> kubectl delete pod rbd-test
+pod "rbd-test" deleted
+
+vgrachev@master:~> rbd rm rbd_test
+Removing image: 100% complete...done.

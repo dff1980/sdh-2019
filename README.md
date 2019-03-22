@@ -78,3 +78,27 @@ https://www.suse.com/documentation/suse-enterprise-storage-5/
 ## SUSE CaaS Platform 3 Documentation
 https://www.suse.com/documentation/suse-caasp-3/index.html
 
+
+## SAP Data Hub specific
+
+Requirements for Installing SAP Data Hub Foundation on Kubernetes
+
+test
+
+```bash
+kubectl auth can-i '*' '*'
+```
+
+```bash
+kubectl create clusterrolebinding vgrachev-cluster-admin-binding --clusterrole=cluster-admin --user=vadim.grachev@sap.com
+```
+## Dashboard Install
+helm install --name heapster-default --namespace=kube-system stable/heapster --version=0.2.7 --set rbac.create=true
+helm list | grep heapster
+helm install --namespace=kube-system --name=kubernetes-dashboard stable/kubernetes-dashboard --version=0.6.1
+
+
+need access to kubernetes-charts.storage.googleapis.com
+
+https://caas-admin.sdh.suse.ru/
+

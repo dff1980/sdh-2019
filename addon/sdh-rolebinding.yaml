@@ -1,0 +1,13 @@
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: sdh-manager-binding
+  namespace: sdh
+subjects:
+- kind: User
+  name: "vadim.grachev@sap.com"
+  apiGroup: ""
+roleRef:
+  kind: Role
+  name: sdh-manager
+  apiGroup: ""
