@@ -1,24 +1,70 @@
 # SAP Data Hub on SUSE CaaS Platform and SUSE Enterprise Server 2019 PoC
 
 This project is PoC installation SAP Data Hub on SUSE CaaS Platform and SUSE Enterprise Server.
+
+Using version:
+- SUSE CaaSP 3
+- SES 5
+- SLES 12 SP3
+
 This document currently in development state. Any comments and additions are welcome.
 If you need some additional information about it please contact with Pavel Zhukov (pavel.zhukov@suse.com).
-### Disclamer.
-#### At the moment, no one is responsible if you try to use the information below for productive installations or commercial purposes.
 
 
-SAP Data Hub on SUSE CaaS and SES5
+###### Disclamer
+###### _At the moment, no one is responsible if you try to use the information below for productive installations or commercial purposes._
 
-change /etc/hosts
-192.168.20.254 master
+## PoC Landscape
+PoC can be deployed in any virtualization environment or on hardware server.
+Currently PoC hosted on VmWare VSphere.
+
+## Requarments
+
+### Tech Specs
+- 1 dedicated infrastructure server ( DNS, DHCP, PXE, NTP, NAT, SMT, TFTP, SES admin, console for SAP Data Hub admin)
+  16GB RAM
+  1 x HDD - 1TB
+  1 LAN adapter
+  1 WAN adapter
+
+- 4 x SES Servers
+    16GB RAM
+    1 x HDD (System) - 100GB
+    3 x HDD (Data) - 1 TB
+    1 LAN
+
+- 5 x CaaSP Nodes
+
+  - 1 x Admin Node
+    64 GB RAM
+    1 x HDD 100 GB
+    1 LAN
+  
+  - 1 x Master Node
+    64 GB RAM
+    1 x HDD 100 GB
+    1 LAN
+  
+  - 3 x Worker Node
+    64 GB RAM
+    1 x HDD 100 GB
+    1 LAN
+
+### Network Architecture
+All server connect to LAN network (isolate from other world).
+Infrastructure server also connect to WAN.
+
+## Instalation Procedure
+### 1. Install SLES12 SP3 at infrastructure server.
+### 2. Add FQDN to /etc/hosts
+Exaple change:
+_192.168.20.254 master_
 to
-192.168.20.254 master.sdh.suse.ru master
-
-Shutt-off firewall at install SES
-
-## DNS + DHCP + NTP Install
-
-## SMT Install
+_192.168.20.254 master.sdh.suse.ru master_
+### 3. Configure NTP.
+### 4. Configure SMT.
+Execute SMT configuration wizard. During the server certificate setup, all possible DNS for this server has been added (SMT FQDN, etc).
+Add repositories to replication.
 ```bash
 sudo zypper in -t pattern smt
 
@@ -28,6 +74,12 @@ done
 
 smt-mirror -L /var/log/smt/smt-mirror.log
 ```
+Download next distro:
+- SLE-12-SP3-Server-DVD-x86_64-GM-DVD1.iso
+- SUSE-Enterprise-Storage-5-DVD-x86_64-GM-DVD1.iso
+- SUSE-CaaS-Platform-3.0-DVD-x86_64-GM-DVD1.iso
+
+Create install repositories:
 
 ```bash
 mkdir -p /srv/www/htdocs/repo/SUSE/Install/SLE-SERVER/12-SP3
@@ -53,6 +105,16 @@ cp /mnt/boot/x86_64/loader/{linux,initrd} /srv/tftpboot/caasp/
 umount /mnt
 ```
 
+## Configure DHCP
+uses 
+
+
+## Install SES
+Shutt-off firewall at install SES time
+
+## DNS + DHCP + NTP Install
+
+## SMT Install
 ## AutoYast Fingerprint
 ```bash
 openssl x509 -noout -fingerprint -sha256 -inform pem -in /srv/www/htdocs/smt.crt
