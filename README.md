@@ -1,4 +1,12 @@
 # SAP Data Hub on SUSE CaaS Platform and SUSE Enterprise Server 2019 PoC
+
+This project is PoC installation SAP Data Hub on SUSE CaaS Platform and SUSE Enterprise Server.
+This document currently in development state. Any comments and additions are welcome.
+If you need some additional information about it please contact with Pavel Zhukov (pavel.zhukov@suse.com).
+### Disclamer.
+#### At the moment, no one is responsible if you try to use the information below for productive installations or commercial purposes.
+
+
 SAP Data Hub on SUSE CaaS and SES5
 
 change /etc/hosts
