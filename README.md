@@ -125,7 +125,7 @@ systemctl restart dhcpd.service
 ```bash
 yast2 tftp-server
 ```
-cp [/srv/tftpboot/](data/srv/tftpboot/) to server.
+copy [/srv/tftpboot/*](data/srv/tftpboot/) to server.
 
 ### 8. Configure DNS
 ```bash
@@ -136,74 +136,154 @@ Configure zone for PoC and all nodes.
 ## Install SES
 ### 1. Stop firewall at Infrastructure server at install SES time.
 ```bash
-systemctl status SuSEfirewall2
+systemctl stop SuSEfirewall2
 ```
 ### 2. Configure AutoYast
-Add [/srv/www/htdocs/autoyast/autoinst_osd.xml](data/srv/www/htdocs/autoyast/autoinst_osd.xml) to server.
+Put [/srv/www/htdocs/autoyast/autoinst_osd.xml](data/srv/www/htdocs/autoyast/autoinst_osd.xml) to server.
 
 ### 3. Install SES Nodes
 Boot all SES Node from PXE and chose "Install OSD Node" from PXE boot menu.
 
 ### 4. Configure SES
+1. Start [data/ses-install/restart.sh](data/ses-install/restart.sh) at infrastructure server.
+2. Run
+```bash
+salt-run state.orch ceph.stage.0
+```
+3. Run
+```bash
+salt-run state.orch ceph.stage.1
+```
+4. Put [/srv/pillar/ceph/proposals/policy.cfg](data/srv/pillar/ceph/proposals/policy.cfg) to server.
+5. Run
+```bash
+salt-run state.orch ceph.stage.2
+```
+After the command finishes, you can view the pillar data for minions by running:
+```bash
+salt '*' pillar.items
+```
+6. Run
+```bash
+salt-run state.orch ceph.stage.3
+```
+If it fails, you need to fix the issue and run the previous stages again. After the command succeeds, run the following to check the status:
+```bash
+ceph -s
+```
+7. Run
+```bash
+salt-run state.orch ceph.stage.4
+```
+8. Add rbd pool (you can use OpenAttic Web interface at infrastructure node)
 
-
-
-
-## SMT Install
-## AutoYast Fingerprint
+### 5. Start firewall at Infrastructure Server
+```bash
+systemctl start SuSEfirewall2
+```
+## Install SUSE CaaSP
+1. Boot CaaS admin Node from PXE and chose "Install CaaSP Manually" from PXE boot menu.
+2. Install CaaS admin Node using FQDN of infrastructure server for SMT and NTP parameters.
+3. Get AutoYaST file for CaaS and put it to /srv/www/htdocs/autoyast/autoinst_caas.xml
+```bash
+wget http://caas-admin.sdh.suse.ru/autoyast
+mv autoyast /srv/www/htdocs/autoyast/autoinst_caas.xml
+```
+4. get AutoYast Fingerprint
 ```bash
 openssl x509 -noout -fingerprint -sha256 -inform pem -in /srv/www/htdocs/smt.crt
 ```
+5. Change /srv/www/htdocs/autoyast/autoinst_caas.xml
+Add
+- to `<suse_register>`
 
-# Install CaaS
+ `<reg_server>https://smt.sdh.suse.ru</reg_server>
+  <reg_server_cert_fingerprint_type>SHA256</reg_server_cert_fingerprint_type>
+  <reg_server_cert_fingerprint>YOUR SMT FINGERPRINT</reg_server_cert_fingerprint>`
 
-## Add to AutoYaST
+- to `<services>`
 
-`# openssl x509 -noout -fingerprint -sha256 -inform pem -in /srv/www/htdocs/smt.crt`
+ `<service>vmtoolsd</service>`
 
-to `<suse_register>`
-
-`<reg_server>https://smt.sdh.suse.ru</reg_server>
- <reg_server_cert_fingerprint_type>SHA256</reg_server_cert_fingerprint_type>
- <reg_server_cert_fingerprint>76:9E:14:87:0F:3E:02:49:34:8C:E4:6C:DA:5B:7F:1A:9C:F3:64:BF:C8:E9:B2:21:E3:B4:B8:4F:D5:03:69:BB</reg_server_cert_fingerprint>`
-
-to `<services>`
-
-`<service>vmtoolsd</service>`
-
-to `<software>`
+ -to `<software>`
  
-`<packages config:type="list">
-      <packages>open-vm-tools</packages>
-    </packages>`
-
-## SUSE Enterprise Storage 5 Documentation
-https://www.suse.com/documentation/suse-enterprise-storage-5/
-
-## SUSE CaaS Platform 3 Documentation
-https://www.suse.com/documentation/suse-caasp-3/index.html
-
-
-## SAP Data Hub specific
-
-Requirements for Installing SAP Data Hub Foundation on Kubernetes
-
-test
-
+ `<packages config:type="list">
+       <packages>open-vm-tools</packages>
+     </packages>`
+6. Boot other CaaS Node from PXE and chose "Install CaaSP Node (full automation)" from PXE boot menu.
+7. Configure CaaS from Velum.
+8. Dashboard Install
 ```bash
-kubectl auth can-i '*' '*'
-```
-
-```bash
-kubectl create clusterrolebinding vgrachev-cluster-admin-binding --clusterrole=cluster-admin --user=vadim.grachev@sap.com
-```
-## Dashboard Install
 helm install --name heapster-default --namespace=kube-system stable/heapster --version=0.2.7 --set rbac.create=true
 helm list | grep heapster
 helm install --namespace=kube-system --name=kubernetes-dashboard stable/kubernetes-dashboard --version=0.6.1
+```
 
+## Configure SUSE CaaSP for SAP Data Hub
+1. Add user
+Using [LDIF File](addon/vgrachev.ldif) to create user. (Use /usr/sbin/slappasswd to generate the password hash.)
+```bash
+zypper in openldap2
+ldapadd -H ldap://ADMINISTRATION_NODE_FQDN:389 -ZZ \
+-D cn=admin,dc=infra,dc=caasp,dc=local -w LDAP_ADMIN_PASSWORD -f LDIF_FILE
+```
+2. Add cluster role for this user (Requirements for Installing SAP Data Hub Foundation on Kubernetes)
+```bash
+kubectl create clusterrolebinding vgrachev-cluster-admin-binding --clusterrole=cluster-admin --user=vadim.grachev@sap.com
+kubectl auth can-i '*' '*'
+```
+3. Install kubernetes-client and helm from /srv/www/htdocs/repo/SUSE/Updates/SUSE-CAASP/3.0/x86_64/update/x86_64
+```bash
+rpm -Uhv kubernetes-common-1.10.11-4.11.1.x86_64.rpm
+rpm -Uhv kubernetes-client-1.10.11-4.11.1.x86_64.rpm
+rpm -Uhv helm-2.8.2-3.3.1.x86_64.rpm
+```
 
-need access to kubernetes-charts.storage.googleapis.com
+## Test Enviroment
+```bash
+kubectl version
+kubectl auth can-i '*' '*'
+helm version
+ceph status
+rbd list
+rbd create -s 10 rbd_test
+rbd info rbd_test
+kubectl apply -f - << *EOF*
+> apiVersion: v1
+> kind: Pod
+> metadata:
+>   name: rbd-test
+> spec:
+>   containers:
+>   - name: test-server
+>     image: nginx
+>     volumeMounts:
+>     - mountPath: /mnt/rbdvol
+>       name: rbdvol
+>   volumes:
+>   - name: rbdvol
+>     rbd:
+>       monitors:
+>       - '192.168.20.21:6789'
+>       - '192.168.20.22:6789'
+>       - '192.168.20.23:6789'
+>       pool: rbd
+>       image: rbd_test
+>       user: admin
+>       secretRef:
+>         name: ceph-secret
+>       fsType: ext4
+>       readOnly: false
+> *EOF*
+kubectl get po
+kubectl exec -it rbd-test -- df -h
+kubectl delete pod rbd-test
+rbd rm rbd_test
+```
 
-https://caas-admin.sdh.suse.ru/
+## Appendix 
+### SUSE Enterprise Storage 5 Documentation
+https://www.suse.com/documentation/suse-enterprise-storage-5/
 
+### SUSE CaaS Platform 3 Documentation
+https://www.suse.com/documentation/suse-caasp-3/index.html
