@@ -11,17 +11,17 @@ This document currently in development state. Any comments and additions are wel
 If you need some additional information about it please contact with Pavel Zhukov (pavel.zhukov@suse.com).
 
 
-###### Disclamer
+###### Disclaimer
 ###### _At the moment, no one is responsible if you try to use the information below for productive installations or commercial purposes._
 
 ## PoC Landscape
 PoC can be deployed in any virtualization environment or on hardware servers.
-Currently PoC hosted on VmWare VSphere.
+Currently, PoC hosted on VMware VSphere.
 
 ## Requarments
 
 ### Tech Specs
-- 1 dedicated infrastructure server ( DNS, DHCP, PXE, NTP, NAT, SMT, TFTP, SES admin, console for SAP Data Hub admin)
+- 1 dedicated infrastructure server ( DNS, DHCP, PXE, NTP, NAT, SMT, TFTP, SES admin, a console for SAP Data Hub admin)
   16GB RAM
   1 x HDD - 1TB
   1 LAN adapter
@@ -51,8 +51,8 @@ Currently PoC hosted on VmWare VSphere.
     1 LAN
 
 ### Network Architecture
-All server connect to LAN network (isolate from other world). In current state - 192.168.20.0/24.
-Infrastructure server also connect to WAN.
+All server connect to LAN network (isolate from another world). In current state - 192.168.20.0/24.
+Infrastructure server also connects to WAN.
 
 ## Instalation Procedure
 ### Install infrastructure server
@@ -134,12 +134,12 @@ yast2 dns-server
 Configure zone for PoC and all nodes.
 
 ## Install SES
-### 1. Stop firewall at Infrastructure server at install SES time.
+### 1. Stop firewall at Infrastructure server at installing SES time.
 ```bash
 systemctl stop SuSEfirewall2
 ```
 ### 2. Configure AutoYast
-Put [/srv/www/htdocs/autoyast/autoinst_osd.xml](data/srv/www/htdocs/autoyast/autoinst_osd.xml) to server.
+Put [/srv/www/htdocs/autoyast/autoinst_osd.xml](data/srv/www/htdocs/autoyast/autoinst_osd.xml) to the server.
 
 ### 3. Install SES Nodes
 Boot all SES Node from PXE and chose "Install OSD Node" from PXE boot menu.
