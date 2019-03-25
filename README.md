@@ -15,7 +15,7 @@ If you need some additional information about it please contact with Pavel Zhuko
 ###### _At the moment, no one is responsible if you try to use the information below for productive installations or commercial purposes._
 
 ## PoC Landscape
-PoC can be deployed in any virtualization environment or on hardware server.
+PoC can be deployed in any virtualization environment or on hardware servers.
 Currently PoC hosted on VmWare VSphere.
 
 ## Requarments
