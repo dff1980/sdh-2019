@@ -51,18 +51,26 @@ Currently PoC hosted on VmWare VSphere.
     1 LAN
 
 ### Network Architecture
-All server connect to LAN network (isolate from other world).
+All server connect to LAN network (isolate from other world). In current state - 192.168.20.0/24.
 Infrastructure server also connect to WAN.
 
 ## Instalation Procedure
-### 1. Install SLES12 SP3 at infrastructure server.
-### 2. Add FQDN to /etc/hosts
+### Install infrastructure server
+#### 1. Install SLES12 SP3
+#### 2. Add FQDN to /etc/hosts
 Exaple change:
 _192.168.20.254 master_
 to
 _192.168.20.254 master.sdh.suse.ru master_
-### 3. Configure NTP.
-### 4. Configure SMT.
+#### 3. Configure NTP.
+```bash
+yast2 ntp-client
+```
+#### 4. Configure Firewall.
+```bash
+yast2 firewall
+```
+#### 5. Configure SMT.
 Execute SMT configuration wizard. During the server certificate setup, all possible DNS for this server has been added (SMT FQDN, etc).
 Add repositories to replication.
 ```bash
@@ -104,15 +112,42 @@ rsync -avP /mnt/ /srv/www/htdocs/repo/SUSE/Install/SUSE-CAASP/3.0/x86_64/
 cp /mnt/boot/x86_64/loader/{linux,initrd} /srv/tftpboot/caasp/
 umount /mnt
 ```
+### 6. Configure DHCP
+```bash
+yast2 dhcp-server
+```
+or uses next [template](data/etc/dhcpd.conf) for /etc/dhcpd.conf
+restart dhcp service.
+```bash
+systemctl restart dhcpd.service
+```
+### 7. Configure TFTP
+```bash
+yast2 tftp-server
+```
+cp [/srv/tftpboot/](data/srv/tftpboot/) to server.
 
-## Configure DHCP
-uses 
-
+### 8. Configure DNS
+```bash
+yast2 dns-server
+```
+Configure zone for PoC and all nodes.
 
 ## Install SES
-Shutt-off firewall at install SES time
+### 1. Stop firewall at Infrastructure server at install SES time.
+```bash
+systemctl status SuSEfirewall2
+```
+### 2. Configure AutoYast
+Add [/srv/www/htdocs/autoyast/autoinst_osd.xml](data/srv/www/htdocs/autoyast/autoinst_osd.xml) to server.
 
-## DNS + DHCP + NTP Install
+### 3. Install SES Nodes
+Boot all SES Node from PXE and chose "Install OSD Node" from PXE boot menu.
+
+### 4. Configure SES
+
+
+
 
 ## SMT Install
 ## AutoYast Fingerprint
