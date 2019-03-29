@@ -238,6 +238,15 @@ rpm -Uhv kubernetes-common-1.10.11-4.11.1.x86_64.rpm
 rpm -Uhv kubernetes-client-1.10.11-4.11.1.x86_64.rpm
 rpm -Uhv helm-2.8.2-3.3.1.x86_64.rpm
 ```
+4. Configure local docker registry
+```bash
+zypper install docker-distribution-registry
+systemctl enable registry
+systemctl start registry
+echo "{ "insecure-registries":["master.sdh.suse.ru:5000"] }" >> /etc/docker/daemon.json
+usermod -a -G docker vgrachev
+```
+https://www.suse.com/documentation/sles-12/book_sles_docker/data/sec_docker_registry_installation.html
 
 ## Test Enviroment
 ```bash
@@ -279,6 +288,9 @@ kubectl get po
 kubectl exec -it rbd-test -- df -h
 kubectl delete pod rbd-test
 rbd rm rbd_test
+docker pull hello-world
+docker tag docker.io/hello-world master.sdh.suse.ru:5000/hello-world
+docker push master.sdh.suse.ru:5000/hello-world
 ```
 
 ## Appendix 

@@ -1,4 +1,0 @@
- 686  2019-03-29 14:09:49 sudo zypper install docker-distribution-registry
-  687  2019-03-29 14:10:06 sudo systemctl enable registry
-  688  2019-03-29 14:10:15 sudo systemctl start registry
-[3~https://www.suse.com/documentation/sles-12/book_sles_docker/data/sec_docker_registry_installation.html
