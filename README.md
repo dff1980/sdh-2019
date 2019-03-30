@@ -247,6 +247,12 @@ echo "{ "insecure-registries":["master.sdh.suse.ru:5000"] }" >> /etc/docker/daem
 usermod -a -G docker vgrachev
 ```
 https://www.suse.com/documentation/sles-12/book_sles_docker/data/sec_docker_registry_installation.html
+5. Add Storage Class
+```bash
+kubectl create -f rbd_storage.json
+```
+6. Add Registru to Velum
+Add master.sdh.suse.ru:5000 to Registru in Velum
 
 ## Test Enviroment
 ```bash

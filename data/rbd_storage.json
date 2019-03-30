@@ -1,0 +1,17 @@
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: sdh-rbd
+provisioner: kubernetes.io/rbd
+parameters:
+  monitors: 192.168.20.21:6789, 192.168.20.22:6789, 192.168.20.23:6789
+  adminId: admin
+  adminSecretName: ceph-secret
+  adminSecretNamespace: default
+  pool: rbd
+  userId: admin
+  userSecretName: ceph-secret
+  userSecretNamespace: default
+  fsType: ext4
+  imageFormat: "2"
+  imageFeatures: "layering"
