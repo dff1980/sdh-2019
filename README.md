@@ -253,6 +253,10 @@ kubectl create -f rbd_storage.json
 ```
 6. Add Registru to Velum
 Add master.sdh.suse.ru:5000 to Registru in Velum
+7. Add Role Binding
+```bash
+kubectl create -f clusterrolebinding.yaml 
+```
 
 ## Test Enviroment
 ```bash
