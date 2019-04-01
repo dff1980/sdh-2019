@@ -251,7 +251,7 @@ https://www.suse.com/documentation/sles-12/book_sles_docker/data/sec_docker_regi
 ```bash
 kubectl create -f rbd_storage.json
 ```
-6. Add Registru to Velum
+6. Add Registry to Velum
 Add master.sdh.suse.ru:5000 to Registru in Velum
 7. Add Role Binding (vsystem-vrep issue)
 ```bash
