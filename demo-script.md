@@ -9,7 +9,7 @@
    2. Data list
 3. Demonstrate SUSE CaaSP Velum web interface:
    1. Node state
-   5. Current settings
+   2. Current settings
 4. Demonstrate SUSE CaaSP Velum Dashboard/web tools:
    1. Current state, grafana integration
    2. Create/delete pods
