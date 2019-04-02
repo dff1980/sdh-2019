@@ -2,7 +2,7 @@
 ## SUSE part demo script
 1. Demonstrate SES Web interface:
    1. Grafana data
-   2. Pool/RDP state
+   2. Pool/RBD state
    3. Current node state (Details & Statistics)
 2. Demonstrate CLI interface:
    1. Cluster state
