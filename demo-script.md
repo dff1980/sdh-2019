@@ -44,7 +44,7 @@ Then run
 openattic/{default password}
 
 ### Connect to Velum (CaaS admin web interface)
-root@sdh.suse.ru/{project default password}
+root@master.sdh.suse.ru/{project default password}
 
 ### Connect to K8S CLI interface
 On your windows machine do the following:
@@ -65,7 +65,8 @@ choco install git
 ```
 Accept all prompts/scripts with y.
 Download and extract the file from https://storage.googleapis.com/kubernetes-helm/helm-v2.7.2-windows-amd64.tar.gz and copy the extracted helm.exe file to C:\Windows\System32
-You will need to close and reload (as an admin) your powershell window to enable git to work (it reloads the path)You have now accepted and installed git, helm and kubectl
+You will need to close and reload (as an admin) your powershell window to enable git to work (it reloads the path)
+You have now accepted and installed git, helm and kubectl
 
 Now we need to get the code. In the same window run:
 cd ~
