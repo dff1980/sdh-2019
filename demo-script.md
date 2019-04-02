@@ -5,22 +5,18 @@
    2. Pool/RDP state
    3. Current node state (Details & Statistics)
 2. Demonstrate CLI interface:
-
- 2.1 Cluster state
- 2.2 Data list
+   1. Cluster state
+   2. Data list
 3. Demonstrate SUSE CaaSP Velum web interface:
-
- 3.1 Node state
- 3.5 Current settings
+   1. Node state
+   5. Current settings
 4. Demonstrate SUSE CaaSP Velum Dashboard/web tools:
-
- 4.1 Current state, grafana integration
- 4.2 Create/delete pods
+   1. Current state, grafana integration
+   2. Create/delete pods
 3. Demostrate CLI interface
-
- 5.1 Cluster state
- 5.2 Pod's control
- 4.6 Helm's commands interface
+   1. Cluster state
+   2. Pod's control
+   3. Helm's commands interface
 
 ## Prepare Demo
 
