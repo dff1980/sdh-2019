@@ -1,19 +1,24 @@
 # Demo Script
 ## SUSE part demo script
 1. Demonstrate SES Web interface:
+
  1.1 Grafana data
  1.2 Pool/RDP state
  1.3 Current node state (Details & Statistics)
 2. Demonstrate CLI interface:
+
  2.1 Cluster state
  2.2 Data list
 3. Demonstrate SUSE CaaSP Velum web interface:
+
  3.1 Node state
  3.5 Current settings
 4. Demonstrate SUSE CaaSP Velum Dashboard/web tools:
+
  4.1 Current state, grafana integration
  4.2 Create/delete pods
 3. Demostrate CLI interface
+
  5.1 Cluster state
  5.2 Pod's control
  4.6 Helm's commands interface
