@@ -1,13 +1,20 @@
-# Demo Script
+# Demo Script (Apr. 2019 SAP Forum)
 ## SUSE part demo script
-1. Demonstrate SES Web interface:
+1. Demonstrate SES Web interface (from VPN http://sdh.suse.ru openattic/{default password}):
    1. Grafana data
    2. Pool/RBD state
    3. Current node state (Details & Statistics)
-2. Demonstrate CLI interface:
+2. Demonstrate CLI interface (ssh root@sdh.suse.ru):
    1. Cluster state
+   ```pshell
+   plink -load SDH-router -batch ceph -s
+   ```
    2. Data list
-3. Demonstrate SUSE CaaSP Velum web interface:
+   ```pshell
+   plink -load SDH-router -batch rbd list
+   plink -load SDH-router -batch rbd info {Object ID)
+   ```
+3. Demonstrate SUSE CaaSP Velum web interface (from VPN https://sdh.suse.ruroot@master.sdh.suse.ru/{project default password}):
    1. Node state
    2. Current settings
 4. Demonstrate SUSE CaaSP Velum Dashboard/web tools:
@@ -41,10 +48,10 @@ Then run
 ## Prepare Client Enviroment
 
 ### Connect to OpenAttic (SES Web interface)
-openattic/{default password}
+from VPN http://sdh.suse.ru openattic/{default password}
 
 ### Connect to Velum (CaaS admin web interface)
-root@master.sdh.suse.ru/{project default password}
+from VPN https://sdh.suse.ruroot@master.sdh.suse.ru/{project default password}
 
 ### Connect to K8S CLI interface
 On your windows machine do the following:
