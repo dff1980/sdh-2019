@@ -22,33 +22,50 @@ Currently, PoC hosted on VMware VSphere.
 
 ### Tech Specs
 - 1 dedicated infrastructure server ( DNS, DHCP, PXE, NTP, NAT, SMT, TFTP, SES admin, a console for SAP Data Hub admin)
-  16GB RAM
-  1 x HDD - 1TB
-  1 LAN adapter
-  1 WAN adapter
+  
+   16GB RAM
+  
+   1 x HDD - 1TB
+  
+   1 LAN adapter
+  
+   1 WAN adapter
 
 - 4 x SES Servers
-    16GB RAM
-    1 x HDD (System) - 100GB
-    3 x HDD (Data) - 1 TB
-    1 LAN
+  
+   16GB RAM
+  
+   1 x HDD (System) - 100GB
+  
+   3 x HDD (Data) - 1 TB
+  
+   1 LAN
 
 - 5 x CaaSP Nodes
 
   - 1 x Admin Node
+  
     64 GB RAM
+  
     1 x HDD 100 GB
-    1 LAN
+  
+     1 LAN
   
   - 1 x Master Node
-    64 GB RAM
-    1 x HDD 100 GB
-    1 LAN
+  
+     64 GB RAM
+  
+     1 x HDD 100 GB
+  
+     1 LAN
   
   - 3 x Worker Node
-    64 GB RAM
-    1 x HDD 100 GB
-    1 LAN
+    
+     64 GB RAM
+     
+     1 x HDD 100 GB
+     
+     1 LAN
 
 ### Network Architecture
 All server connect to LAN network (isolate from another world). In current state - 192.168.20.0/24.
