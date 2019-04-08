@@ -239,6 +239,20 @@ helm install --namespace=kube-system --name=kubernetes-dashboard stable/kubernet
 ## Configure SUSE CaaSP for SAP Data Hub
 1. Add user
 Using [LDIF File](addon/vgrachev.ldif) to create user. (Use /usr/sbin/slappasswd to generate the password hash.)
+Retrieve the LDAP admin password. Note the password for later use.
+```bash
+cat /var/lib/misc/infra-secrets/openldap-password
+```
+Import the LDAP certificate to your local trusted certificate storage. On the administration node, run:
+```bash
+docker exec -it $(docker ps -q -f name=ldap) cat /etc/openldap/pki/ca.crt > ~/ca.pem
+scp ~/ca.pem root@WORKSTATION:/usr/share/pki/trust/anchors/ca-caasp.crt.pem
+```
+Replace WORKSTATION with the appropriate hostname for the workstation where you wish to run the LDAP queries.
+Then, on that workstation, run:
+```bash
+update-ca-certificates
+```
 ```bash
 zypper in openldap2
 ldapadd -H ldap://ADMINISTRATION_NODE_FQDN:389 -ZZ \
