@@ -22,9 +22,13 @@ Currently, PoC hosted on VMware VSphere.
 
 ### Tech Specs
 - 1 dedicated infrastructure server ( DNS, DHCP, PXE, NTP, NAT, SMT, TFTP, SES admin, a console for SAP Data Hub admin)
+    
     16GB RAM
+    
     1 x HDD - 1TB
+    
     1 LAN adapter
+    
     1 WAN adapter
 
 - 4 x SES Servers
