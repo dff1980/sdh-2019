@@ -326,7 +326,7 @@ kubectl apply -f - << *EOF*
          name: ceph-secret
        fsType: ext4
        readOnly: false
- *EOF*
+*EOF*
 kubectl get po
 kubectl exec -it rbd-test -- df -h
 kubectl delete pod rbd-test
