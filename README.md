@@ -278,12 +278,14 @@ echo "{ "insecure-registries":["master.sdh.suse.ru:5000"] }" >> /etc/docker/daem
 usermod -a -G docker vgrachev
 ```
 https://www.suse.com/documentation/sles-12/book_sles_docker/data/sec_docker_registry_installation.html
+
 5. Add Storage Class
 ```bash
-kubectl create -f rbd_storage.json
+kubectl create -f rbd_storage.yaml
 ```
 6. Add Registry to Velum
 Add master.sdh.suse.ru:5000 to Registru in Velum
+
 7. Add Role Binding (vsystem-vrep issue)
 ```bash
 kubectl create -f clusterrolebinding.yaml 
@@ -299,32 +301,32 @@ rbd list
 rbd create -s 10 rbd_test
 rbd info rbd_test
 kubectl apply -f - << *EOF*
-> apiVersion: v1
-> kind: Pod
-> metadata:
->   name: rbd-test
-> spec:
->   containers:
->   - name: test-server
->     image: nginx
->     volumeMounts:
->     - mountPath: /mnt/rbdvol
->       name: rbdvol
->   volumes:
->   - name: rbdvol
->     rbd:
->       monitors:
->       - '192.168.20.21:6789'
->       - '192.168.20.22:6789'
->       - '192.168.20.23:6789'
->       pool: rbd
->       image: rbd_test
->       user: admin
->       secretRef:
->         name: ceph-secret
->       fsType: ext4
->       readOnly: false
-> *EOF*
+ apiVersion: v1
+ kind: Pod
+ metadata:
+   name: rbd-test
+ spec:
+   containers:
+   - name: test-server
+     image: nginx
+     volumeMounts:
+     - mountPath: /mnt/rbdvol
+       name: rbdvol
+   volumes:
+   - name: rbdvol
+     rbd:
+       monitors:
+       - '192.168.20.21:6789'
+       - '192.168.20.22:6789'
+       - '192.168.20.23:6789'
+       pool: rbd
+       image: rbd_test
+       user: admin
+       secretRef:
+         name: ceph-secret
+       fsType: ext4
+       readOnly: false
+ *EOF*
 kubectl get po
 kubectl exec -it rbd-test -- df -h
 kubectl delete pod rbd-test
