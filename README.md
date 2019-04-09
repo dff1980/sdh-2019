@@ -22,33 +22,50 @@ Currently, PoC hosted on VMware VSphere.
 
 ### Tech Specs
 - 1 dedicated infrastructure server ( DNS, DHCP, PXE, NTP, NAT, SMT, TFTP, SES admin, a console for SAP Data Hub admin)
-  16GB RAM
-  1 x HDD - 1TB
-  1 LAN adapter
-  1 WAN adapter
+    
+    16GB RAM
+    
+    1 x HDD - 1TB
+    
+    1 LAN adapter
+    
+    1 WAN adapter
 
 - 4 x SES Servers
-    16GB RAM
-    1 x HDD (System) - 100GB
-    3 x HDD (Data) - 1 TB
-    1 LAN
+  
+   16GB RAM
+  
+   1 x HDD (System) - 100GB
+  
+   3 x HDD (Data) - 1 TB
+  
+   1 LAN
 
 - 5 x CaaSP Nodes
 
   - 1 x Admin Node
+  
     64 GB RAM
+  
     1 x HDD 100 GB
-    1 LAN
+  
+     1 LAN
   
   - 1 x Master Node
-    64 GB RAM
-    1 x HDD 100 GB
-    1 LAN
+  
+     64 GB RAM
+  
+     1 x HDD 100 GB
+  
+     1 LAN
   
   - 3 x Worker Node
-    64 GB RAM
-    1 x HDD 100 GB
-    1 LAN
+    
+     64 GB RAM
+     
+     1 x HDD 100 GB
+     
+     1 LAN
 
 ### Network Architecture
 All server connect to LAN network (isolate from another world). In current state - 192.168.20.0/24.
@@ -219,9 +236,40 @@ helm list | grep heapster
 helm install --namespace=kube-system --name=kubernetes-dashboard stable/kubernetes-dashboard --version=0.6.1
 ```
 
+## Configure SUSE CaaSP and SES integration
+
+Retrieve the Ceph admin secret. Get the key value from the file /etc/ceph/ceph.client.admin.keyring.
+
+On the master node apply the configuration that includes the Ceph secret by using kubectl apply. Replace CEPH_SECRET with your Ceph secret.
+```bash
+tux > kubectl apply -f - << *EOF*
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ceph-secret
+type: "kubernetes.io/rbd"
+data:
+  key: "$(echo CEPH_SECRET | base64)"
+*EOF*
+```
+
 ## Configure SUSE CaaSP for SAP Data Hub
 1. Add user
 Using [LDIF File](addon/vgrachev.ldif) to create user. (Use /usr/sbin/slappasswd to generate the password hash.)
+Retrieve the LDAP admin password. Note the password for later use.
+```bash
+cat /var/lib/misc/infra-secrets/openldap-password
+```
+Import the LDAP certificate to your local trusted certificate storage. On the administration node, run:
+```bash
+docker exec -it $(docker ps -q -f name=ldap) cat /etc/openldap/pki/ca.crt > ~/ca.pem
+scp ~/ca.pem root@WORKSTATION:/usr/share/pki/trust/anchors/ca-caasp.crt.pem
+```
+Replace WORKSTATION with the appropriate hostname for the workstation where you wish to run the LDAP queries.
+Then, on that workstation, run:
+```bash
+update-ca-certificates
+```
 ```bash
 zypper in openldap2
 ldapadd -H ldap://ADMINISTRATION_NODE_FQDN:389 -ZZ \
@@ -247,12 +295,14 @@ echo "{ "insecure-registries":["master.sdh.suse.ru:5000"] }" >> /etc/docker/daem
 usermod -a -G docker vgrachev
 ```
 https://www.suse.com/documentation/sles-12/book_sles_docker/data/sec_docker_registry_installation.html
+
 5. Add Storage Class
 ```bash
-kubectl create -f rbd_storage.json
+kubectl create -f rbd_storage.yaml
 ```
-6. Add Registru to Velum
-Add master.sdh.suse.ru:5000 to Registru in Velum
+6. Add Registry to Velum
+Add master.sdh.suse.ru:5000 to Registry in Velum
+
 7. Add Role Binding (vsystem-vrep issue)
 ```bash
 kubectl create -f clusterrolebinding.yaml 
@@ -268,39 +318,42 @@ rbd list
 rbd create -s 10 rbd_test
 rbd info rbd_test
 kubectl apply -f - << *EOF*
-> apiVersion: v1
-> kind: Pod
-> metadata:
->   name: rbd-test
-> spec:
->   containers:
->   - name: test-server
->     image: nginx
->     volumeMounts:
->     - mountPath: /mnt/rbdvol
->       name: rbdvol
->   volumes:
->   - name: rbdvol
->     rbd:
->       monitors:
->       - '192.168.20.21:6789'
->       - '192.168.20.22:6789'
->       - '192.168.20.23:6789'
->       pool: rbd
->       image: rbd_test
->       user: admin
->       secretRef:
->         name: ceph-secret
->       fsType: ext4
->       readOnly: false
-> *EOF*
+ apiVersion: v1
+ kind: Pod
+ metadata:
+   name: rbd-test
+ spec:
+   containers:
+   - name: test-server
+     image: nginx
+     volumeMounts:
+     - mountPath: /mnt/rbdvol
+       name: rbdvol
+   volumes:
+   - name: rbdvol
+     rbd:
+       monitors:
+       - '192.168.20.21:6789'
+       - '192.168.20.22:6789'
+       - '192.168.20.23:6789'
+       pool: rbd
+       image: rbd_test
+       user: admin
+       secretRef:
+         name: ceph-secret
+       fsType: ext4
+       readOnly: false
+*EOF*
 kubectl get po
 kubectl exec -it rbd-test -- df -h
 kubectl delete pod rbd-test
 rbd rm rbd_test
+docker images -- master.sdh.suse.ru:5000/hello-world
+docker push master.sdh.suse.ru:5000/hello-world
 docker pull hello-world
 docker tag docker.io/hello-world master.sdh.suse.ru:5000/hello-world
-docker push master.sdh.suse.ru:5000/hello-world
+docker images -- master.sdh.suse.ru:5000/hello-world
+docker pull master.sdh.suse.ru:5000/hello-world
 ```
 
 ## Appendix 
