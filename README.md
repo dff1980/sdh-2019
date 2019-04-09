@@ -236,6 +236,23 @@ helm list | grep heapster
 helm install --namespace=kube-system --name=kubernetes-dashboard stable/kubernetes-dashboard --version=0.6.1
 ```
 
+## Configure SUSE CaaSP and SES integration
+
+Retrieve the Ceph admin secret. Get the key value from the file /etc/ceph/ceph.client.admin.keyring.
+
+On the master node apply the configuration that includes the Ceph secret by using kubectl apply. Replace CEPH_SECRET with your Ceph secret.
+```bash
+tux > kubectl apply -f - << *EOF*
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ceph-secret
+type: "kubernetes.io/rbd"
+data:
+  key: "$(echo CEPH_SECRET | base64)"
+*EOF*
+```
+
 ## Configure SUSE CaaSP for SAP Data Hub
 1. Add user
 Using [LDIF File](addon/vgrachev.ldif) to create user. (Use /usr/sbin/slappasswd to generate the password hash.)
