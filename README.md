@@ -348,9 +348,12 @@ kubectl get po
 kubectl exec -it rbd-test -- df -h
 kubectl delete pod rbd-test
 rbd rm rbd_test
+docker images -- master.sdh.suse.ru:5000/hello-world
+docker push master.sdh.suse.ru:5000/hello-world
 docker pull hello-world
 docker tag docker.io/hello-world master.sdh.suse.ru:5000/hello-world
-docker push master.sdh.suse.ru:5000/hello-world
+docker images -- master.sdh.suse.ru:5000/hello-world
+docker pull master.sdh.suse.ru:5000/hello-world
 ```
 
 ## Appendix 
