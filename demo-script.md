@@ -19,12 +19,27 @@
    2. Current settings
 4. Demonstrate SUSE CaaSP Velum Dashboard/web tools:
    1. Current state, grafana integration
-   2. Create/delete pods
+   2. Create/delete pods (nginx)
+   3. Demonstrate Weave interface
 3. Demostrate CLI interface
    1. Cluster state
    2. Pod's control
    3. Helm's commands interface
-
+   ```bash
+   cd microservices-demo
+   kubectl create namespace shop
+   helm install suse-shop --namespace shop
+   ```
+   Demonstrate Web from kubectl proxy.
+   ```bash
+   kubectl apply -f ingress.yaml -n shop
+   ```
+   Demonstrate 2, and more Shop in different namespaces.
+   ```bash
+   kubectl delete namespaces shop
+   ```
+   Demonstrate Weave interface
+   
 ## Prepare Demo
 
 #### Container Deployment Demo Deploy
