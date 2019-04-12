@@ -253,6 +253,11 @@ data:
 *EOF*
 ```
 
+##Configure nginx-ingress
+
+helm install --name nginx-ingress stable/nginx-ingress --namespace kube-system --values nginx-ingress-config-values.yaml
+
+
 ## Configure SUSE CaaSP for SAP Data Hub
 1. Add user
 Using [LDIF File](addon/vgrachev.ldif) to create user. (Use /usr/sbin/slappasswd to generate the password hash.)
