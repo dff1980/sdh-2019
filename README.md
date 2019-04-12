@@ -253,7 +253,7 @@ data:
 *EOF*
 ```
 
-##Configure nginx-ingress
+## Configure nginx-ingress for micro-servises demo
 
 helm install --name nginx-ingress stable/nginx-ingress --namespace kube-system --values nginx-ingress-config-values.yaml
 
