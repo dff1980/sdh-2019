@@ -39,7 +39,10 @@
    kubectl delete namespaces shop
    ```
    Demonstrate Weave interface
-   
+
+   Addon service demo (change apple)
+   cat ingress.yaml | sed s/\$\$NAME/apple/ | kubectl create -f -
+
 ## Prepare Demo
 
 #### Container Deployment Demo Deploy
