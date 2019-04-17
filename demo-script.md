@@ -106,4 +106,5 @@ cd to the microservices-demo folder you checked out in your home directory
 When you actually do the deployment (NOT NOW!!!!!!!) you will be applying the helm chart located in the folder suse-shop. DO NOT CD INTO suse-shop AS THIS WILL NOT WORK YOU RUN THE HELM COMMAND INSIDE THE microservices-demo FOLDER
 
 
+https://drive.google.com/open?id=1HFz0HdsP_T9u5tU5zESLK5U6scstYao5
 
