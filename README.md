@@ -222,7 +222,7 @@ Add
 
  `<service>vmtoolsd</service>`
 
- -to `<software>`
+- to `<software>`
  
  `<packages config:type="list">
        <packages>open-vm-tools</packages>
