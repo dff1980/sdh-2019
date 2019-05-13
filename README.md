@@ -230,10 +230,9 @@ Add
 6. Boot other CaaS Node from PXE and chose "Install CaaSP Node (full automation)" from PXE boot menu.
 7. Configure CaaS from Velum.
 8. Dashboard Install
-~~```bash
-helm install --name heapster-default --namespace=kube-system stable/heapster --version=0.2.7 --set rbac.create=true
-helm list | grep heapster
-``` ~~
+
+~~helm install --name heapster-default --namespace=kube-system stable/heapster --version=0.2.7 --set rbac.create=true
+helm list | grep heapster~~
 
 ```bash
 helm install --name heapster-default --namespace=kube-system stable/heapster --set rbac.create=true
