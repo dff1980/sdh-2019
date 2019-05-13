@@ -230,9 +230,26 @@ Add
 6. Boot other CaaS Node from PXE and chose "Install CaaSP Node (full automation)" from PXE boot menu.
 7. Configure CaaS from Velum.
 8. Dashboard Install
-```bash
+~~```bash
 helm install --name heapster-default --namespace=kube-system stable/heapster --version=0.2.7 --set rbac.create=true
 helm list | grep heapster
+``` ~~
+
+```bash
+helm install --name heapster-default --namespace=kube-system stable/heapster --set rbac.create=true
+```
+Change Heapster deployment to using 10250 port:
+```bash
+kubectl edit deployment heapster-default-heapster -n kube-system
+```
+```yaml
+    spec:
+      containers:
+      - command:
+        - /heapster
+        - --source=kubernetes.summary_api:https://kubernetes.default?kubeletPort=10250&kubeletHttps=true&insecure=true
+```
+```bash
 helm install --namespace=kube-system --name=kubernetes-dashboard stable/kubernetes-dashboard --version=0.6.1
 ```
 
