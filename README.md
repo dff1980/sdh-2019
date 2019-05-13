@@ -227,6 +227,7 @@ Add
  `<packages config:type="list">
        <packages>open-vm-tools</packages>
      </packages>`
+
 6. Boot other CaaS Node from PXE and chose "Install CaaSP Node (full automation)" from PXE boot menu.
 7. Configure CaaS from Velum.
 8. Dashboard Install
