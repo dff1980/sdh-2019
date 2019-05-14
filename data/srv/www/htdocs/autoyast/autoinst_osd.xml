@@ -19,7 +19,7 @@
         <interpreter>shell</interpreter>
         <source><![CDATA[
         #!/bin/sh
-        echo "$(ip a | grep -A1 eth0 | grep inet | sed 's/\s*inet\s*\(.*\)\/..\sbrd.*/\1/') $(hostname).sdh.suse.ru $(hostname)"
+        echo "$(ip a | grep -A1 eth0 | grep inet | sed 's/\s*inet\s*\(.*\)\/..\sbrd.*/\1/') $(hostname).sdh.suse.ru $(hostname)" >> /etc/hosts
         ]]>
         </source>
       </script>
