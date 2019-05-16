@@ -152,6 +152,12 @@ systemctl stop SuSEfirewall2
 ### 2. Configure AutoYast
 Put [/srv/www/htdocs/autoyast/autoinst_osd.xml](data/srv/www/htdocs/autoyast/autoinst_osd.xml) to the server.
 
+get AutoYast Fingerprint
+openssl x509 -noout -fingerprint -sha256 -inform pem -in /srv/www/htdocs/smt.crt
+Change /srv/www/htdocs/autoyast/autoinst_osd.xml Add
+to <suse_register>
+<reg_server>https://smt.sdh.suse.ru</reg_server> <reg_server_cert_fingerprint_type>SHA256</reg_server_cert_fingerprint_type> <reg_server_cert_fingerprint>YOUR SMT FINGERPRINT</reg_server_cert_fingerprint>
+
 ### 3. Install SES Nodes
 Boot all SES Node from PXE and chose "Install OSD Node" from PXE boot menu.
 
