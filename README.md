@@ -101,7 +101,6 @@ smt-mirror -L /var/log/smt/smt-mirror.log
 ```
 Download next distro:
 - SLE-12-SP3-Server-DVD-x86_64-GM-DVD1.iso
-- SUSE-Enterprise-Storage-5-DVD-x86_64-GM-DVD1.iso
 - SUSE-CaaS-Platform-3.0-DVD-x86_64-GM-DVD1.iso
 
 Create install repositories:
@@ -109,7 +108,6 @@ Create install repositories:
 ```bash
 mkdir -p /srv/www/htdocs/repo/SUSE/Install/SLE-SERVER/12-SP3
 mkdir -p /srv/www/htdocs/repo/SUSE/Install/SUSE-CAASP/3.0
-mkdir -p /srv/www/htdocs/repo/SUSE/Install/Storage/5
 
 mkdir -p /srv/tftpboot/sle12sp3
 mkdir -p /srv/tftpboot/caasp
@@ -118,10 +116,6 @@ mkdir -p /srv/tftpboot/caasp
 mount SLE-12-SP3-Server-DVD-x86_64-GM-DVD1.iso /mnt
 rsync -avP /mnt/ /srv/www/htdocs/repo/SUSE/Install/SLE-SERVER/12-SP3/x86_64/
 cp /mnt/boot/x86_64/loader/{linux,initrd} /srv/tftpboot/sle12sp3/
-umount /mnt
-
-mount SUSE-Enterprise-Storage-5-DVD-x86_64-GM-DVD1.iso /mnt
-rsync -avP /mnt/ /srv/www/htdocs/repo/SUSE/Install/Storage/5/x86_64/
 umount /mnt
 
 mount SUSE-CaaS-Platform-3.0-DVD-x86_64-GM-DVD1.iso /mnt
