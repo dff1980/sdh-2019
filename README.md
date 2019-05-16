@@ -1,6 +1,6 @@
-# SAP Data Hub on SUSE CaaS Platform and SUSE Enterprise Server 2019 PoC
+# SAP Data Hub on SUSE CaaS Platform and SUSE Enterprise Storage 2019 PoC
 
-This project is PoC installation SAP Data Hub on SUSE CaaS Platform and SUSE Enterprise Server.
+This project is PoC installation SAP Data Hub on SUSE CaaS Platform and SUSE Enterprise Storage.
 
 Using version:
 - SUSE CaaSP 3
