@@ -69,7 +69,7 @@ Then run
 from VPN http://sdh.suse.ru openattic/{default password}
 
 ### Connect to Velum (CaaS admin web interface)
-from VPN https://sdh.suse.ruroot@master.sdh.suse.ru/{project default password}
+from VPN https://sdh.suse.ru root@master.sdh.suse.ru/{project default password}
 
 ### Connect to K8S CLI interface
 On your windows machine do the following:
