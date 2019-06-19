@@ -308,12 +308,23 @@ rpm -Uhv kubernetes-common-1.10.11-4.11.1.x86_64.rpm
 rpm -Uhv kubernetes-client-1.10.11-4.11.1.x86_64.rpm
 rpm -Uhv helm-2.8.2-3.3.1.x86_64.rpm
 ```
-4. Configure local docker registry
+4. Install docker
+
+add SLE-Module-Containers12
+install docker
+
+5. Configure local docker registry
 ```bash
 zypper install docker-distribution-registry
 systemctl enable registry
 systemctl start registry
-echo "{ "insecure-registries":["master.sdh.suse.ru:5000"] }" >> /etc/docker/daemon.json
+```
+add to /etc/docker/daemon.json next key: "insecure-registries":["master.sdh.suse.ru:5000"]
+for example for clean file:
+```json
+{ "insecure-registries":["master.sdh.suse.ru:5000"] }"
+```
+```bash
 usermod -a -G docker vgrachev
 ```
 https://www.suse.com/documentation/sles-12/book_sles_docker/data/sec_docker_registry_installation.html
@@ -323,7 +334,7 @@ https://www.suse.com/documentation/sles-12/book_sles_docker/data/sec_docker_regi
 kubectl create -f rbd_storage.yaml
 ```
 6. Add Registry to Velum
-Add master.sdh.suse.ru:5000 to Registry in Velum
+Add http://master.sdh.suse.ru:5000 to Registry in Velum
 
 7. Add Role Binding (vsystem-vrep issue)
 ```bash
