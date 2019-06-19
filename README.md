@@ -311,6 +311,7 @@ rpm -Uhv helm-2.8.2-3.3.1.x86_64.rpm
 4. Install docker
 
 add SLE-Module-Containers12
+
 install docker
 
 5. Configure local docker registry
