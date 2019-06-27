@@ -396,3 +396,11 @@ https://www.suse.com/documentation/suse-enterprise-storage-5/
 
 ### SUSE CaaS Platform 3 Documentation
 https://www.suse.com/documentation/suse-caasp-3/index.html
+
+
+## Appendix A
+
+```
+for i in $(kubectl get pods -n sdh | tail -n +2 | cut -f1 -d" "); do echo "$i"; kubectl describe pod $i -n sdh | grep "Image ID:"; done
+```
+
