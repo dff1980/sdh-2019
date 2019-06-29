@@ -307,6 +307,7 @@ kubectl auth can-i '*' '*'
 rpm -Uhv kubernetes-common-1.10.11-4.11.1.x86_64.rpm
 rpm -Uhv kubernetes-client-1.10.11-4.11.1.x86_64.rpm
 rpm -Uhv helm-2.8.2-3.3.1.x86_64.rpm
+helm init --client-only
 ```
 4. Install docker
 
