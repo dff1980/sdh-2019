@@ -12,7 +12,7 @@
    2. Data list
    ```pshell
    plink -load SDH-router -batch rbd list
-   plink -load SDH-router -batch rbd info {Object ID)
+   plink -load SDH-router -batch rbd info {Object ID}
    ```
 3. Demonstrate SUSE CaaSP Velum web interface (from VPN https://sdh.suse.ruroot@master.sdh.suse.ru/{project default password}):
    1. Node state
