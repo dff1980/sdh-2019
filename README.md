@@ -1,22 +1,22 @@
 # SAP Data Hub on SUSE CaaS Platform and SUSE Enterprise Storage 2019 PoC
 
-This project is PoC installation SAP Data Hub on SUSE CaaS Platform and SUSE Enterprise Storage.
+This project involves the Proof of Concept installation of SAP Data Hub on SUSE CaaS Platform and SUSE Enterprise Storage.
 
 Using version:
 - SUSE CaaSP 3
 - SES 5
 - SLES 12 SP3
 
-This document currently in development state. Any comments and additions are welcome.
-If you need some additional information about it please contact with Pavel Zhukov (pavel.zhukov@suse.com).
+This document is currently in a development state. Any comments and additions are welcome.
+If you need additional information, please contact Pavel Zhukov (pavel.zhukov@suse.com).
 
 
 ###### Disclaimer
 ###### _At the moment, no one is responsible if you try to use the information below for productive installations or commercial purposes._
 
 ## PoC Landscape
-PoC can be deployed in any virtualization environment or on hardware servers.
-Currently, PoC hosted on VMware VSphere.
+The PoC can be deployed in any virtualization environment or on hardware servers.
+Currently, the PoC is hosted on VMware vSphere.
 
 ## Requarments
 
@@ -68,8 +68,8 @@ Currently, PoC hosted on VMware VSphere.
      1 LAN
 
 ### Network Architecture
-All server connect to LAN network (isolate from another world). In current state - 192.168.20.0/24.
-Infrastructure server also connects to WAN.
+AAll servers connect to the LAN network (isolated from another world). In the current state - 192.168.20.0/24.
+The infrastructure server also connects to WAN.
 
 ## Instalation Procedure
 ### Install infrastructure server
@@ -99,7 +99,7 @@ done
 
 smt-mirror -L /var/log/smt/smt-mirror.log
 ```
-Download next distro:
+Download the next distro:
 - SLE-12-SP3-Server-DVD-x86_64-GM-DVD1.iso
 - SUSE-CaaS-Platform-3.0-DVD-x86_64-GM-DVD1.iso
 
@@ -127,8 +127,8 @@ umount /mnt
 ```bash
 yast2 dhcp-server
 ```
-or uses next [template](data/etc/dhcpd.conf) for /etc/dhcpd.conf
-restart dhcp service.
+or uses the next [template](data/etc/dhcpd.conf) for /etc/dhcpd.conf,
+then restart dhcp service.
 ```bash
 systemctl restart dhcpd.service
 ```
@@ -162,7 +162,7 @@ to <suse_register>
 Boot all SES Node from PXE and chose "Install OSD Node" from PXE boot menu.
 
 ### 4. Configure SES
-1. Start [data/ses-install/restart.sh](data/ses-install/restart.sh) at infrastructure server.
+1. Start [data/ses-install/restart.sh](data/ses-install/restart.sh) on the infrastructure server.
 2. Run
 ```bash
 salt-run state.orch ceph.stage.0
@@ -171,7 +171,7 @@ salt-run state.orch ceph.stage.0
 ```bash
 salt-run state.orch ceph.stage.1
 ```
-4. Put [/srv/pillar/ceph/proposals/policy.cfg](data/srv/pillar/ceph/proposals/policy.cfg) to server.
+4. Put [/srv/pillar/ceph/proposals/policy.cfg](data/srv/pillar/ceph/proposals/policy.cfg) on the server.
 5. Run
 ```bash
 salt-run state.orch ceph.stage.2
@@ -199,14 +199,14 @@ salt-run state.orch ceph.stage.4
 systemctl start SuSEfirewall2
 ```
 ## Install SUSE CaaSP
-1. Boot CaaS admin Node from PXE and chose "Install CaaSP Manually" from PXE boot menu.
-2. Install CaaS admin Node using FQDN of infrastructure server for SMT and NTP parameters.
-3. Get AutoYaST file for CaaS and put it to /srv/www/htdocs/autoyast/autoinst_caas.xml
+1. Boot the CaaS admin Node from PXE and chose "Install CaaSP Manually" from the PXE boot menu.
+2. Install the CaaS admin Node using the FQDN of infrastructure server for SMT and NTP parameters.
+3. Get AutoYaST file for the CaaS and put it to /srv/www/htdocs/autoyast/autoinst_caas.xml
 ```bash
 wget http://caas-admin.sdh.suse.ru/autoyast
 mv autoyast /srv/www/htdocs/autoyast/autoinst_caas.xml
 ```
-4. get AutoYast Fingerprint
+4. get the AutoYast Fingerprint
 ```bash
 openssl x509 -noout -fingerprint -sha256 -inform pem -in /srv/www/htdocs/smt.crt
 ```
@@ -228,7 +228,7 @@ Add
        <packages>open-vm-tools</packages>
      </packages>`
 
-6. Boot other CaaS Node from PXE and chose "Install CaaSP Node (full automation)" from PXE boot menu.
+6. Boot other CaaS Node from PXE and chose "Install CaaSP Node (full automation)" from the PXE boot menu.
 7. Configure CaaS from Velum.
 8. Dashboard Install
 
